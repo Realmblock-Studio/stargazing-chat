@@ -1,6 +1,8 @@
-var socket = io()
+
 
 // loading screen
+
+var socket = io()
 
 socket.on("connect", ()=>{
 	document.getElementById("loading-screen").style.opacity = 0;
@@ -17,6 +19,7 @@ socket.on("reconnect", ()=>{
 })
 
 socket.on("disconnect", ()=>{
+  //document.getElementById("loading-splash").innerText = loadingSplashes[Math.floor(Math.random() * loadingSplashes.length)]
 	document.getElementById("loading-screen").style.opacity = 0;
 	document.getElementById("loading-screen").style.display = "";
 	document.getElementById("loading-screen").style.opacity = 1;
@@ -71,9 +74,8 @@ if (getCookie("theme") != null) { // check cookies for  the "theme" cookie.
 
 var darkmodetransition = document.createElement('style');
 document.head.appendChild(darkmodetransition);
-var dark = false
+var dark = true
 var toggleButton = document.getElementById("theme-toggle");
-changeDark()
 
 toggleButton.onclick = function(){
 	if (dark){

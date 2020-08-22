@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
 	<meta name=viewport content="width=device-width, initial-scale=0.75, user-scalable=yes">
   <script src="/socket.io/socket.io.js"></script>
 	<script src="https://kit.fontawesome.com/c08a4915fa.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/index.css">
-  <title>chat.iman.engineer</title>
+  <link rel="icon" href="./assets/milkyway.png" type="image/png">
+  <link rel="shortcut icon" href="./assets/milkyway.png" type="image/png">
+  <title>Stargazers</title>
 </head>
 <body>
 
 	<div class="loading" id="loading-screen">
 		<h1>Connecting...</h1>
 		<div class="spinner"></div>
+		<div class="loading-splash">
+    	<p id="loading-splash">loading splash ༼ つ ◕_◕ ༽つ</p>
+		</div>
 	</div>
 
   <div class="sidebar">
@@ -85,6 +90,18 @@
   </div>
 
 
-  <script src="/core-js/index.js"></script>
+  <script> 
+    var loadingSplashes = [
+      "Did you know that the Universe is 13.7 billion years old?",
+      "Did you know the Universe is actually flat?",
+      "Did you know there is a giant cloud of alcohol in Sagittarius B?",
+      "Did you know there is a giant planet-sized diamond in Centaurus named after a Beatles song?",
+      "It takes 225 <strong>MILLION</strong> years for our Sun to travel around the galaxy",
+			"We are all bound to die one day. (⊙_⊙;)",
+      ]
+
+    document.getElementById("loading-splash").innerHTML = loadingSplashes[Math.floor(Math.random() * loadingSplashes.length)]
+  </script>
+	<script src="/core-js/index.js"></script>
 </body>
 </html>
