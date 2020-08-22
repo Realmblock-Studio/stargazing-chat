@@ -1,5 +1,6 @@
 // Chat messanger created by Hoofer#0001 [github.com/HooferDevelops] and Akkoza#8767 [github.com/AkkozaDevelops]
 
+// Stargazer Studios [github.com/Stargazers-Studio]
 
 // variables
 
