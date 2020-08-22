@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+	<meta name=viewport content="width=device-width, initial-scale=0.75, user-scalable=yes">
+  <script src="/socket.io/socket.io.js"></script>
+	<script src="https://kit.fontawesome.com/c08a4915fa.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/css/index.css">
+  <title>chat.iman.engineer</title>
+</head>
+<body>
+
+	<div class="loading" id="loading-screen">
+		<h1>Connecting...</h1>
+		<div class="spinner"></div>
+	</div>
+
+  <div class="sidebar">
+    <div class="sidebar-top">
+      <div class="sidebar-top-button" role="tab", aria-selected="true">Servers</div>
+      <div class="sidebar-top-button" role="tab", aria-selected="false">Users<div class="unread-total">!</div></div>
+    </div>
+    <div class="sidebar-search">
+      <input placeholder="Search" type="text"></input>
+    </div>
+    <div class="sidebar-list">
+    
+      <!-- template for the profile/chatroom button -->
+      <div class="sidebar-object">
+        <div class="sidebar-object-avatar">
+          <img class="object-avatar" src="https://cdn.discordapp.com/avatars/399416615742996480/a_db2316f7e679122fc95e9cf71f65ecca.webp?size=128">
+        </div>
+        <div class="object-label">
+          LuckFire#3262
+        </div>
+        <div class="object-alert-count">
+        5
+        </div>
+      </div>
+
+
+      <div class="sidebar-object" aria-selected="true">
+        <div class="sidebar-object-avatar">
+          <img class="object-avatar" src="https://cdn.discordapp.com/avatars/547951620235984906/60ca51ff2d3e37e07f09f51ff090ba40.webp?size=128">
+        </div>
+        <div class="object-label">
+          Hoofer's Server
+        </div>
+        <div class="object-alert-count">
+        99+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="main-topbar">
+			<div class="icon-button" id="sidebar-toggle">
+				<i class="fas fa-bars"></i>
+			</div>
+    	<div class="topbar-title">
+        <img class="object-avatar"src="https://cdn.discordapp.com/avatars/547951620235984906/60ca51ff2d3e37e07f09f51ff090ba40.webp?size=128">
+				<div class="topbar-information">
+					<div class="title-name">Hoofer's Server</div>
+					<div class="title-members">0 Members</div>
+				</div>
+			</div>
+			<div class="topbar-buttons">
+				<div class="icon-button">
+					<i class="fas fa-ellipsis-v"></i>
+				</div>
+				<div class="icon-button" id="theme-toggle">
+					<i class="fas fa-adjust"></i>
+				</div>
+			</div>
+    </div>
+    <div class="main-chat">
+
+    </div>
+    <div class="main-chatbar">
+			<div>
+			<div>
+    </div>
+  </div>
+
+
+  <script src="/core-js/index.js"></script>
+</body>
+</html>
