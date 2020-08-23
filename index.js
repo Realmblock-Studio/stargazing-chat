@@ -77,7 +77,7 @@ io.on('connection', (socket) => {
 
 
 server.listen(port, function() {
-	console.log('Server listening at port %d', port);
+	console.log("\x1b[33m", 'Server listening at port %d', port);
 });
 
-console.log("hi mom")
+console.log("\x1b[1m", "hi mom")

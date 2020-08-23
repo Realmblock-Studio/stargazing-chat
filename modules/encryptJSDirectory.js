@@ -23,7 +23,6 @@ var obfuscatedSettings = {
 
 
 function encrypt(directory){
-  console.log(directory);
   global.app.get(directory, function(req, res) {
       global.fs.readFile(global.path.join(global.rootDir, directory.substring(0)), "utf8", function(err, data) {
           if (err) {
