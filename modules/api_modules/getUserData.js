@@ -1,8 +1,8 @@
 
 function enableApi() {
   global.app.get("/user", function (req,res) {
-    res.send(JSON.stringify(req))
+    res.send("test.")
   }) 
 }
 
-module.exports = enableApi
+module.exports = {enabled: false, f: enableApi};

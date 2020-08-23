@@ -10,4 +10,4 @@ function checkConnection() {
   }) 
 }
 
-module.exports = checkConnection;
+module.exports = {enabled: true, f: checkConnection};

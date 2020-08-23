@@ -50,7 +50,7 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 
 require(`${__dirname}/modules/startAPIservices.js`)();
 
-// error handler (prevents an error from crashing the entire-backend like it used to before kekw)
+// error handler (prevents an error from crashing the entire-backend like it used to before (●'◡'●) )
 process.on('uncaughtException', function (err) {
   console.error(err);
   console.log("Node NOT Exiting...");

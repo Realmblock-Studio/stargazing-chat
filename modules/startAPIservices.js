@@ -1,16 +1,16 @@
 
-var enabledApis = [
-  "./api_modules/connection.js",
-  "./api_modules/testapi.js",
-  "./api_modules/getUserData.js"
-]
-
-
 function start() {
-  for (i = 0; i < enabledApis.length; i++) {
-    console.log(`Starting ${enabledApis[i]}`)
-    require(enabledApis[i])();
-  }
+	global.fs.readdir(global.path.join(global.rootDir, 'modules', 'api_modules'), (err, files) => {
+		files.forEach(file => {
+			var f = require(global.path.join(global.rootDir, 'modules', 'api_modules', file));
+			if (f.enabled){
+				console.log("\x1b[32m", `${file} is now enabled ♪(´▽｀)`);
+				f.f();
+			} else {
+				console.log("\x1b[31m", `${file} is not enabled ≧ ﹏ ≦`);
+			}
+		});
+	});
 }
 
 module.exports = start;
