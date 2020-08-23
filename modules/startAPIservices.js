@@ -1,10 +1,10 @@
 
-/*var enabledApis = [
+var enabledApis = [
+  "./api_modules/connection.js",
   "./api_modules/testapi.js",
   "./api_modules/getUserData.js"
-]*/
+]
 
-var enabledApis = [] // all disabled atm while I figure it out loool
 
 function start() {
   for (i = 0; i < enabledApis.length; i++) {

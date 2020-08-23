@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "fetch": "^1.1.0",
     "grawlix": "^1.0.6",
     "grawlix-racism": "^1.0.2",
     "javascript-obfuscator": "^1.11.0",

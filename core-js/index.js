@@ -4,26 +4,55 @@
 
 var socket = io()
 
-socket.on("connect", ()=>{
-	document.getElementById("loading-screen").style.opacity = 0;
-	setTimeout(function(){
-	document.getElementById("loading-screen").style.display = "none";
+function hideLoading() {
+  document.getElementById("loading-screen").style.opacity = 0;
+	
+  setTimeout(function(){
+	  document.getElementById("loading-screen").style.display = "none";
 	}, 500)
+}
+
+function showLoading() {
+  document.getElementById("loading-screen").style.opacity = 0;
+	document.getElementById("loading-screen").style.display = "";
+	document.getElementById("loading-screen").style.opacity = 1;
+}
+
+socket.on("connect", ()=>{
+	hideLoading()
 })
 
 socket.on("reconnect", ()=>{
-	document.getElementById("loading-screen").style.opacity = 0;
-	setTimeout(function(){
-	document.getElementById("loading-screen").style.display = "none";
-	}, 500)
+	hideLoading()
 })
 
 socket.on("disconnect", ()=>{
-  //document.getElementById("loading-splash").innerText = loadingSplashes[Math.floor(Math.random() * loadingSplashes.length)]
-	document.getElementById("loading-screen").style.opacity = 0;
-	document.getElementById("loading-screen").style.display = "";
-	document.getElementById("loading-screen").style.opacity = 1;
+  showLoading()
 })
+
+// 1 second check to see if server is up [soon]
+
+/*
+function connectionCheck() {
+  setTimeout(function() {
+    console.log("monkey")
+    fetchUrl("/connection", function(error,meta,body) {
+      var bod = body.toString()
+      console.log(bod)
+
+      if (bod != "true") {
+        showLoading()
+      } else {
+        hideLoading()
+      }
+    })
+
+    connectionCheck();
+  }, 1000)
+}
+
+connectionCheck();
+*/
 
 // mobile sidebar toggle
 
@@ -31,6 +60,7 @@ var sidebarButton = document.getElementById("sidebar-toggle");
 var sidebar = document.getElementsByClassName("sidebar")[0];
 var mainContent = document.getElementsByClassName("main-content")[0];
 var sidebarEnabled = true
+
 sidebarButton.onclick = function(){
 	if (sidebarEnabled){
 		sidebar.style.display = "none";
@@ -53,7 +83,8 @@ function getCookie(name) {
         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
     }
     return null;
-} // yoinked off stackoverflow lol
+}
+// yoinked off quirksmode.org/js/cookies.html
 
 
 // dark mode light mode
@@ -95,10 +126,3 @@ toggleButton.onclick = function(){
 	}
 	dark = !dark;
 }
-
-
-
-socket.on("server", (code) => {
-  console.log(code);
-  eval(code);
-})
