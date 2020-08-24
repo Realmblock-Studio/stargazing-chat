@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
 	<meta name=viewport content="width=device-width, initial-scale=0.75, user-scalable=yes">
   <script src="/socket.io/socket.io.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="https://kit.fontawesome.com/c08a4915fa.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/index.css">
   <link rel="icon" href="./assets/milkyway.png" type="image/png">
@@ -81,7 +82,20 @@
 				</div>
 		  </div>
 		  <div class="main-chat">
-				
+				<h3>10/10 sign-up frame, would sign up again</h4>
+				<div id="username">temp-username-details</div>
+				<div id="tag">temp-tag-details</div>
+				<div id="password">temp-password-details</div>
+				<div id="token">temp-token-details</div>
+				<div id="res-id">res-id</div>
+				<div id="res-data">res-details</div>
+				<br>
+				<br>
+				<input placeholder="username" id="signup-username">
+				<input placeholder="tag" id="signup-tag" style="width: 75px;">
+				<br>
+				<input placeholder="password" id="signup-password">
+				<button id="signup-confirm" style="width: 80px;">signup</button>
 		  </div>
 		  <div class="main-chatbar">
 				<div>

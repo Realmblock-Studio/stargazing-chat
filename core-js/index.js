@@ -128,3 +128,23 @@ toggleButton.onclick = function(){
 	}
 	dark = !dark;
 }
+
+// sign-up test v1
+
+document.getElementById("signup-confirm").onclick = function(){
+	var username = document.getElementById("signup-username").value;
+	var tag = document.getElementById("signup-tag").value;
+	var password = document.getElementById("signup-password").value;
+	console.log(username);
+	axios.post("/createAccount", {username: username, tag: tag, password: password})
+	.then(data=>{
+		console.log(data.data);
+		var data = data.data
+		console.log(data.result);
+		document.getElementById("res-id").innerText = data.result;
+		document.getElementById("res-data").innerText = data.message;
+	})
+	.catch(err=>{
+		console.log(err);
+	})
+}

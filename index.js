@@ -49,14 +49,15 @@ global.client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology
 encryptFile("/core-js/index.js");
 
 app.use('/', express.static(path.join(__dirname, 'public')));
+app.use(express.json())
 
 require(`${__dirname}/modules/startAPIservices.js`)();
 
 // error handler (prevents an error from crashing the entire-backend like it used to before (●'◡'●) )
-process.on('uncaughtException', function (err) {
+/*process.on('uncaughtException', function (err) {
   console.error(err);
   console.log("Node NOT Exiting...");
-});
+});*/
 
 
 
@@ -71,6 +72,8 @@ io.on('connection', (socket) => {
   socket.on("getUserInfo", (data) => {
     // monkey
   })
+	
+	
 
   socket.on("disconnectAll", (data) => {
     io.emit("disconnect")
@@ -79,15 +82,14 @@ io.on('connection', (socket) => {
 
 
 server.listen(port, function() {
-	console.log("\x1b[33m", 'Server listening at port %d', port);
+	console.log("\x1b[33m", 'Server listening at port', port);
 });
 
 // mongodb
 
-client.connect(err => {
+global.client.connect(err => {
 	console.log("\x1b[33m", "MongoDB Connected");
-  const collection = client.db("chat").collection("users");
-  client.close();
+  const collection = global.client.db("chat").collection("users");
 });
 
 

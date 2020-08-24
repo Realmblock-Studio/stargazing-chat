@@ -322,3 +322,19 @@ html, body {
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+
+
+input, button {
+  font-weight: 500;
+  box-sizing:border-box;
+  border: 1px solid var(--sidebar-shadow);
+  padding-left: 10px; 
+  outline: none;
+  border-style:solid;
+  border-radius: 4px;
+  height: 20px;
+  transition: .3s linear;
+	color: var(--font-color);
+	background-color: var(--background-color);
+  box-shadow: inset 0 -2px 2px var(--sidebar-shadow);
+}
