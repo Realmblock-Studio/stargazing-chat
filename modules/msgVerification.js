@@ -1,5 +1,5 @@
 
-function verify(data,socket) {
+function verify(data, socket) {
   const grawlix = global.grawlix
   //socket.emit("messageRecieved", data);
 
@@ -8,17 +8,20 @@ function verify(data,socket) {
   var parsedData = JSON.parse(data)
   if (!parsedData) return "There was an error parsing data."
 
+  if (!parsedData.author.token) return "Author packet was sent without verification token."
+
   if (!parsedData.author) return "Data packet was sent w/o author id."
-  if (!parsedData.messagePacket) return "Data packet was sent w/o a message packet." // message packet should include: "message", "timestamp", and "serverId"
+  if (!parsedData.messagePacket) return "Data packet was sent w/o a message packet." // message packet should include: "message" and "serverId"
 
   if (!parsedData.messagePacket.message) return "Message packet was sent w/o a message."
   if(!parsedData.messagePacket.serverId) return "Message packet was sent w/o a server destination."
 
-  var msg = grawlix(parsedData.messagePacket.message); // grawlix should filter out racial slurs.
+  var msg = grawlix(parsedData.messagePacket.message); // grawlix should filter out racial slurs / other filters that are applied.
   var server = parsedData.messagePacket.serverId
   var author = parsedData.author
 
   // gotta add something eventually to verify if sender is using someone else's userid
+  // probably a token verification-type thing discord uses
 
   var dataSendback = {
 

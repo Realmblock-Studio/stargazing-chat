@@ -100,6 +100,8 @@ if (getCookie("theme") != null) { // check cookies for  the "theme" cookie.
     document.documentElement.setAttribute('data-theme', 'dark');
     dark = true;
   }
+} else {
+  dark = true;
 }
 
 

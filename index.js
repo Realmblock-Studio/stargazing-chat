@@ -1,4 +1,4 @@
-// Chat messanger created by Hoofer#0001 [github.com/HooferDevelops] and Akkoza#8767 [github.com/AkkozaDevelops]
+// Chat messanger created by Hoofer#0001 [github.com/HooferDevelops] and Akkoza#8767 [github.com/AkkozaDevelops] o(*￣▽￣*)ブ
 
 // Stargazer Studios [github.com/Stargazers-Studio]
 
@@ -13,7 +13,8 @@ const fs = require('fs');
 const jsObfuscate = require('javascript-obfuscator');
 const grawlix = require('grawlix');
 const fetchUrl = require("fetch").fetchUrl;
-
+const MongoClient = require('mongodb').MongoClient;
+const uri = `mongodb+srv://${process.env.databaseusername}:${process.env.databasepassword}@cluster0.ezjee.mongodb.net/<dbname>?retryWrites=true&w=majority`;
 const encryptFile = require(`${__dirname}/modules/encryptJSDirectory.js`);
 
 grawlix.setDefaults({
@@ -41,6 +42,7 @@ global.fs = fs;
 global.jsObfuscate = jsObfuscate;
 global.encryptFile = encryptFile;
 global.path = path;
+global.client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // encrypt files
 
@@ -60,7 +62,7 @@ process.on('uncaughtException', function (err) {
 
 
 
-
+// technically we could make this automatically socket.on for each module name, but i can't be bothered to do so. (っ °Д °;)っ
 io.on('connection', (socket) => {
   socket.on("postRequest", (data)=>{
     console.log(require(`${__dirname}/modules/msgVerification.js`)(data,socket));
@@ -79,5 +81,16 @@ io.on('connection', (socket) => {
 server.listen(port, function() {
 	console.log("\x1b[33m", 'Server listening at port %d', port);
 });
+
+// mongodb
+
+client.connect(err => {
+	console.log("\x1b[33m", "MongoDB Connected");
+  const collection = client.db("chat").collection("users");
+  client.close();
+});
+
+
+
 
 console.log("\x1b[1m", "hi mom")

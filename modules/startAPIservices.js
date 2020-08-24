@@ -3,7 +3,7 @@ function start() {
 	global.fs.readdir(global.path.join(global.rootDir, 'modules', 'api_modules'), (err, files) => {
 		files.forEach(file => {
 			var f = require(global.path.join(global.rootDir, 'modules', 'api_modules', file));
-			if (f.enabled){
+			if (f.enabled){ // shut up fa-
 				console.log("\x1b[32m", `${file} is now enabled ♪(´▽｀)`);
 				f.f();
 			} else {
