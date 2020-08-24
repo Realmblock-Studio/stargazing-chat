@@ -135,12 +135,10 @@ document.getElementById("signup-confirm").onclick = function(){
 	var username = document.getElementById("signup-username").value;
 	var tag = document.getElementById("signup-tag").value;
 	var password = document.getElementById("signup-password").value;
-	console.log(username);
+	password = CryptoJS.AES.encrypt(password, tag+username).toString();
 	axios.post("/createAccount", {username: username, tag: tag, password: password})
 	.then(data=>{
-		console.log(data.data);
 		var data = data.data
-		console.log(data.result);
 		document.getElementById("res-id").innerText = data.result;
 		document.getElementById("res-data").innerText = data.message;
 	})

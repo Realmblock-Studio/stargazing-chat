@@ -32,7 +32,7 @@ function encrypt(directory){
 
               obfuscatedSettings.identifiersPrefix = `imanengineer${randomString(randomNumber)}mywaifuisdigital`
               var obfuscated = global.jsObfuscate.obfuscate(data,obfuscatedSettings)._obfuscatedCode;
-              res.send(obfuscated);
+              res.send(data);
           }
       });
   });

@@ -13,6 +13,9 @@ const fs = require('fs');
 const jsObfuscate = require('javascript-obfuscator');
 const grawlix = require('grawlix');
 const fetchUrl = require("fetch").fetchUrl;
+const CryptoJS = require("crypto-js");
+const AES = require("crypto-js/aes");
+const SHA256 = require("crypto-js/sha256");
 const MongoClient = require('mongodb').MongoClient;
 const uri = `mongodb+srv://${process.env.databaseusername}:${process.env.databasepassword}@cluster0.ezjee.mongodb.net/<dbname>?retryWrites=true&w=majority`;
 const encryptFile = require(`${__dirname}/modules/encryptJSDirectory.js`);
@@ -43,6 +46,9 @@ global.jsObfuscate = jsObfuscate;
 global.encryptFile = encryptFile;
 global.path = path;
 global.client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+global.AES = AES;
+global.SHA256 = SHA256;
+global.CryptoJS = CryptoJS;
 
 // encrypt files
 
@@ -54,10 +60,10 @@ app.use(express.json())
 require(`${__dirname}/modules/startAPIservices.js`)();
 
 // error handler (prevents an error from crashing the entire-backend like it used to before (●'◡'●) )
-/*process.on('uncaughtException', function (err) {
+process.on('uncaughtException', function (err) {
   console.error(err);
   console.log("Node NOT Exiting...");
-});*/
+});
 
 
 
