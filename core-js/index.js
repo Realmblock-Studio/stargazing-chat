@@ -136,7 +136,25 @@ document.getElementById("signup-confirm").onclick = function(){
 	var tag = document.getElementById("signup-tag").value;
 	var password = document.getElementById("signup-password").value;
 	password = CryptoJS.AES.encrypt(password, tag+username).toString();
-	axios.post("/createAccount", {username: username, tag: tag, password: password})
+	axios.post("/signup", {username: username, tag: tag, password: password})
+	.then(data=>{
+		var data = data.data
+		document.getElementById("res-id").innerText = data.result;
+		document.getElementById("res-data").innerText = data.message;
+	})
+	.catch(err=>{
+		console.log(err);
+	})
+}
+
+// log-in test v1
+
+document.getElementById("login-confirm").onclick = function(){
+	var username = document.getElementById("login-username").value;
+	var tag = document.getElementById("login-tag").value;
+	var password = document.getElementById("login-password").value;
+	password = CryptoJS.AES.encrypt(password, tag+username).toString();
+	axios.post("/login", {username: username, tag: tag, password: password})
 	.then(data=>{
 		var data = data.data
 		document.getElementById("res-id").innerText = data.result;

@@ -16,6 +16,7 @@ const fetchUrl = require("fetch").fetchUrl;
 const CryptoJS = require("crypto-js");
 const AES = require("crypto-js/aes");
 const SHA256 = require("crypto-js/sha256");
+const requestIp = require('request-ip');
 const MongoClient = require('mongodb').MongoClient;
 const uri = `mongodb+srv://${process.env.databaseusername}:${process.env.databasepassword}@cluster0.ezjee.mongodb.net/<dbname>?retryWrites=true&w=majority`;
 const encryptFile = require(`${__dirname}/modules/encryptJSDirectory.js`);
@@ -49,6 +50,7 @@ global.client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology
 global.AES = AES;
 global.SHA256 = SHA256;
 global.CryptoJS = CryptoJS;
+global.requestIp = requestIp;
 
 // encrypt files
 

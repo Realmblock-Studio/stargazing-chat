@@ -7,7 +7,7 @@ function alphanumeric(text) {
 }
 
 function createAccount() {
-  global.app.post("/createAccount", function (req,res) {
+  global.app.post("/signup", function (req,res) {
 		if(!req.body){
 			res.send("i have no idea how this occured.");
 			return;
@@ -38,6 +38,11 @@ function createAccount() {
 			return;
 		}
 
+		if(tag.toString() === "0000"){
+			res.send(`{"result": 0, "message": "This tag is reserved to staff."}`)
+			return;
+		}
+
 		if (!alphanumeric(username) || !alphanumeric(tag)){
 			res.send(`{"result": 0, "message": "Please ensure your username and tag do not use invalid characters."}`)
 			return;
@@ -52,7 +57,9 @@ function createAccount() {
 				global.client.db("chat").collection("users").insertOne({
 					username: username,
 					tag: tag,
-					password: global.CryptoJS.HmacSHA256(password, process.env.hashCode).toString()
+					password: global.CryptoJS.HmacSHA256(password, process.env.hashCode).toString(),
+          creationTime: Date.now(),
+          creationIp: global.requestIp.getClientIp(req)
 				},(err, dbres)=>{
 					if (err) throw err;
 					res.send(`{"result": 1, "message": "Account Created Successfully.", "token": ""}`);
