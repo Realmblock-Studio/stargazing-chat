@@ -208,10 +208,9 @@ socket.on("updateServerList", function(data){
 	data.forEach(info=>{
 		var button = createServerButton(info.serverInfo.serverName, info.serverInfo.serverIcon)
 		var serverId = info.directionId;
-		console.log(button);
 		button.id = "server-" + serverId.toString();
+		console.log(info);
 		button.onclick = function(){
-			console.log("hi")
 			if (selectedServer == button)
 				return;
 			button.setAttribute("aria-selected", "true");

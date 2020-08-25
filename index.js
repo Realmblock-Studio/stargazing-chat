@@ -95,7 +95,6 @@ io.on('connection', (socket) => {
 		require(global.rootDir + "/modules/getUserData.js")(token, null, (userinfo)=>{
 			var id = userinfo.uId;
 			require(global.rootDir + "/modules/getServersUser.js")(id,(servers)=>{
-				console.log(servers);
 				socket.emit("updateServerList", servers);
 			})
 		})

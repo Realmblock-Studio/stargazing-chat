@@ -1,11 +1,13 @@
 function getServersUserIsIn(userId, callback) {
-	console.log(userId);
   global.client.db("chat").collection("servers").find({"serverInfo.inviteOnly": false},(err, result)=>{
 		result.toArray().then(result=>{
-			console.log(result);
-
-			// TODO: filter out uneeded info, that way it's not shown to the client.
-			
+			for (var i=0;i<result.length;i++){
+				result[i].members = result[i].members.length;
+				result[i].messages = null;
+				result[i]._id = null;
+				console.log(result[i].members)
+			}
+			console.log("sending");
 			callback(result);
 		});
 	});
