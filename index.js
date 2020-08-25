@@ -17,6 +17,8 @@ const CryptoJS = require("crypto-js");
 const AES = require("crypto-js/aes");
 const SHA256 = require("crypto-js/sha256");
 const requestIp = require('request-ip');
+const request = require("request");
+const isimage = require("is-image-url");
 const MongoClient = require('mongodb').MongoClient;
 const uri = `mongodb+srv://${process.env.databaseusername}:${process.env.databasepassword}@cluster0.ezjee.mongodb.net/<dbname>?retryWrites=true&w=majority`;
 const encryptFile = require(`${__dirname}/modules/encryptJSDirectory.js`);
@@ -35,9 +37,10 @@ grawlix.setDefaults({
 
 const port = 3000;
 
-// globals
+// globals ψ(｀∇´)ψ
 
-global.app = app
+global.io = io;
+global.app = app;
 global.grawlix = grawlix;
 global.socket = require("socket.io")();
 global.fetchUrl = fetchUrl;
@@ -51,6 +54,8 @@ global.AES = AES;
 global.SHA256 = SHA256;
 global.CryptoJS = CryptoJS;
 global.requestIp = requestIp;
+global.request = request;
+global.isimage = isimage;
 
 // encrypt files
 
@@ -73,15 +78,25 @@ process.on('uncaughtException', function (err) {
 
 // technically we could make this automatically socket.on for each module name, but i can't be bothered to do so. (っ °Д °;)っ
 io.on('connection', (socket) => {
-  socket.on("postRequest", (data)=>{
-    console.log(require(`${__dirname}/modules/msgVerification.js`)(data,socket));
+  socket.on("messageRequest", (data)=>{
+    console.log("getting message request")
+    console.log(require(`${__dirname}/modules/msgVerification.js`)(data));
   });
 
   socket.on("getUserInfo", (data) => {
     // monkey
   })
 	
-	
+	socket.on("getServers", (data)=>{
+		var token = data.token;
+		require(global.rootDir + "/modules/getUserData.js")(token, null, (userinfo)=>{
+			var id = userinfo.uId;
+			require(global.rootDir + "/modules/getServersUser.js")(id,(servers)=>{
+				console.log(servers);
+				socket.emit("updateServerList", servers);
+			})
+		})
+	})
 
   socket.on("disconnectAll", (data) => {
     io.emit("disconnect")

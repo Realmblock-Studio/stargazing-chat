@@ -30,30 +30,6 @@ socket.on("disconnect", ()=>{
   showLoading()
 })
 
-// 1 second check to see if server is up [soon]
-
-/*
-function connectionCheck() {
-  setTimeout(function() {
-    console.log("monkey")
-    fetchUrl("/connection", function(error,meta,body) {
-      var bod = body.toString()
-      console.log(bod)
-
-      if (bod != "true") {
-        showLoading()
-      } else {
-        hideLoading()
-      }
-    })
-
-    connectionCheck();
-  }, 1000)
-}
-
-connectionCheck();
-*/
-
 // mobile sidebar toggle
 
 var sidebarButton = document.getElementById("sidebar-toggle");
@@ -86,6 +62,11 @@ function getCookie(name) {
 }
 // yoinked off quirksmode.org/js/cookies.html
 
+// message reciever
+
+socket.on("messageRecieved", (data) => {
+  console.log(data)
+})
 
 // dark mode light mode
 
@@ -129,6 +110,37 @@ toggleButton.onclick = function(){
 	dark = !dark;
 }
 
+// send message test v1
+
+function sendMessage(directionId, message) { // directionId is either a userid or server id.
+  if (!directionId) return "There was no specified directionId."
+  if (!message) return "The sent message packet was nil."
+
+  if (message.length > 2000) return `Message is over 2K characters. [${message.length}]`
+
+  var token = getCookie("token")
+
+  if (!token) return "User does not have a token cookie."
+
+  var messagePacket = {
+    author: token,
+
+    messagePacket: {
+      message: message,
+      serverId: directionId
+    }
+  }
+
+  console.log("a")
+
+  socket.emit("messageRequest",JSON.stringify(messagePacket))
+
+  console.log("b")
+
+  return "pog it'll work"
+
+}
+
 // sign-up test v1
 
 document.getElementById("signup-confirm").onclick = function(){
@@ -159,8 +171,42 @@ document.getElementById("login-confirm").onclick = function(){
 		var data = data.data
 		document.getElementById("res-id").innerText = data.result;
 		document.getElementById("res-data").innerText = data.message;
+    
+    if (data.token) {
+      document.cookie = `token=${data.token}; Path=/`
+    }
 	})
 	.catch(err=>{
 		console.log(err);
 	})
 }
+
+// server list update
+
+
+
+// server buttons instancing
+
+var serverButton = document.getElementsByClassName("sidebar-object")[0].cloneNode(true);
+document.getElementsByClassName("sidebar-object")[0].parentNode.removeChild(document.getElementsByClassName("sidebar-object")[0])
+
+function createServerButton(name,icon){
+	var btn = serverButton.cloneNode(true);	
+	btn.getElementsByClassName("object-label")[0].innerText = name;
+	btn.getElementsByClassName("object-avatar")[0].src = icon;
+	document.getElementById("sidebar-list").appendChild(btn);
+	return btn;
+}
+
+function resetSidebarList(){
+	document.getElementById("sidebar-list").innerHTML = "";
+}
+
+socket.on("updateServerList", function(data){
+	data.forEach(info=>{
+		var button = createServerButton(info.serverInfo.serverName, info.serverInfo.serverIcon)
+		var serverId = info.directionId;
+	})
+})
+
+socket.emit("getServers", {token: getCookie("token")})

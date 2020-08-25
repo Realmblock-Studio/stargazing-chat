@@ -6,4 +6,4 @@ function enableApi() {
   }) 
 }
 
-module.exports = {enabled: true, f: enableApi};
+module.exports = {enabled: false, f: enableApi};

@@ -31,15 +31,13 @@ function login() {
       if (err) throw err
 
       if (result) {
-				res.send(`{"result": 1, "message": "Logged in successfully.", "token": ""}`);
+				res.send(`{"result": 1, "message": "Logged in successfully.", "token": "${result.token}"}`);
         console.log(result.username + "#" + result.tag)
       } else {
         res.send(`{"result": 0, "message": "Invalid password or username."}`)
         console.log("invalid")
         return;
       }
-
-      
     })
   })
 }

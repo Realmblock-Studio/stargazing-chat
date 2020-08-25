@@ -6,6 +6,16 @@ function alphanumeric(text) {
 	return false;
 }
 
+String.random = function (length) {
+	let radom13chars = function () {
+		return Math.random().toString(16).substring(2, 15)
+	}
+	let loops = Math.ceil(length / 13)
+	return new Array(loops).fill(radom13chars).reduce((string, func) => {
+		return string + func()
+	}, '').substring(0, length)
+}
+
 function createAccount() {
   global.app.post("/signup", function (req,res) {
 		if(!req.body){
@@ -48,26 +58,30 @@ function createAccount() {
 			return;
 		}
 
-		global.client.db("chat").collection("users").findOne({username: username, tag: tag},(err, dbres)=>{
-			if (err) throw err;
-			
-			if (dbres){
-				res.send(`{"result": 0, "message": "This Username and Tag combination is taken."}`)
-			} else {
-				global.client.db("chat").collection("users").insertOne({
-					username: username,
-					tag: tag,
-					password: global.CryptoJS.HmacSHA256(password, process.env.hashCode).toString(),
-          creationTime: Date.now(),
-          creationIp: global.requestIp.getClientIp(req)
-				},(err, dbres)=>{
-					if (err) throw err;
-					res.send(`{"result": 1, "message": "Account Created Successfully.", "token": ""}`);
-				})
-				
-			}
-		})
+    var uId = Math.floor(Math.random() * 9999999999999999)
 
+      global.client.db("chat").collection("users").findOne({username: username, tag: tag},(err, dbres)=>{
+        if (err) throw err;
+          
+        if (dbres){
+          res.send(`{"result": 0, "message": "This Username and Tag combination is taken."}`)
+        } else {
+          var token = String.random(50);
+          global.client.db("chat").collection("users").insertOne({
+            uId: uId,
+            username: username,
+            tag: tag,
+            password: global.CryptoJS.HmacSHA256(password, process.env.hashCode).toString(),
+            creationTime: Date.now(),
+            creationIp: global.requestIp.getClientIp(req),
+            token: token
+          },(err, dbres)=>{
+            if (err) throw err;
+            res.send(`{"result": 1, "message": "Account Created Successfully.", "token": "${token}"}`);
+          })
+            
+        }
+      })
   }) 
 }
 
