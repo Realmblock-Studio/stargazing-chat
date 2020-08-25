@@ -87,6 +87,9 @@ io.on('connection', (socket) => {
     // monkey
   })
 	
+
+	// TODO: convert into api_module instead, it would be better for that
+
 	socket.on("getServers", (data)=>{
 		var token = data.token;
 		require(global.rootDir + "/modules/getUserData.js")(token, null, (userinfo)=>{
@@ -97,6 +100,8 @@ io.on('connection', (socket) => {
 			})
 		})
 	})
+
+
 
   socket.on("disconnectAll", (data) => {
     io.emit("disconnect")

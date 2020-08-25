@@ -187,6 +187,8 @@ document.getElementById("login-confirm").onclick = function(){
 
 // server buttons instancing
 
+var selectedServer = null
+
 var serverButton = document.getElementsByClassName("sidebar-object")[0].cloneNode(true);
 document.getElementsByClassName("sidebar-object")[0].parentNode.removeChild(document.getElementsByClassName("sidebar-object")[0])
 
@@ -206,7 +208,38 @@ socket.on("updateServerList", function(data){
 	data.forEach(info=>{
 		var button = createServerButton(info.serverInfo.serverName, info.serverInfo.serverIcon)
 		var serverId = info.directionId;
+		console.log(button);
+		button.id = "server-" + serverId.toString();
+		button.onclick = function(){
+			console.log("hi")
+			if (selectedServer == button)
+				return;
+			button.setAttribute("aria-selected", "true");
+			if (selectedServer)
+				selectedServer.setAttribute("aria-selected", "false");
+			
+			selectedServer = button;
+			// TODO: load everything when clicked lol
+		}
 	})
 })
+
+document.getElementById("servers-tab").onclick = function(){
+	if(document.getElementById("servers-tab").getAttribute("aria-selected") === "false"){
+		resetSidebarList();
+	}
+	document.getElementById("servers-tab").setAttribute("aria-selected", "true");
+	document.getElementById("users-tab").setAttribute("aria-selected", "false");
+	socket.emit("getServers", {token: getCookie("token")})
+}
+
+document.getElementById("users-tab").onclick = function(){
+	if(document.getElementById("users-tab").getAttribute("aria-selected") === "false"){
+		resetSidebarList();
+	}
+	document.getElementById("users-tab").setAttribute("aria-selected", "true");
+	document.getElementById("servers-tab").setAttribute("aria-selected", "false");
+	socket.emit("getUsers", {token: getCookie("token")})
+}
 
 socket.emit("getServers", {token: getCookie("token")})
