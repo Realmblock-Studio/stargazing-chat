@@ -5,9 +5,7 @@ function getServersUserIsIn(userId, callback) {
 				result[i].members = result[i].members.length;
 				result[i].messages = null;
 				result[i]._id = null;
-				console.log(result[i].members)
 			}
-			console.log("sending");
 			callback(result);
 		});
 	});

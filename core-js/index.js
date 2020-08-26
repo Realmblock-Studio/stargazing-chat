@@ -217,6 +217,7 @@ function resetSidebarList(){
 
 
 function updateServerList(token){
+	selectedServer = null;
 	axios.post("/getservers", {token: token})
 	.then(data=>{
 		var data = data.data
@@ -243,6 +244,33 @@ function updateServerList(token){
 	})
 }
 
+//getusers
+
+function updateUserList(token){
+	selectedServer = null;
+	axios.post("/getusers", {token: token})
+	.then(data=>{
+		var data = data.data
+		console.log(data);
+		resetSidebarList();
+		data.forEach(info=>{
+			var button = createServerButton(info.username + "#" + info.tag, "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQjhXywxjElAm3CfUbV3ou6ytC2H1qKopM6xw52ExGZEA&usqp=CAU&ec=45695923")
+			var userId = info.uId;
+			button.id = "server-" + userId.toString();
+			console.log(info);
+			button.onclick = function(){
+				if (selectedServer == button)
+					return;
+				button.setAttribute("aria-selected", "true");
+				if (selectedServer)
+					selectedServer.setAttribute("aria-selected", "false");
+				
+				selectedServer = button;
+			}
+		})
+
+	})
+}
 
 document.getElementById("servers-tab").onclick = function(){
 	if(document.getElementById("servers-tab").getAttribute("aria-selected") === "true")
@@ -263,7 +291,7 @@ document.getElementById("users-tab").onclick = function(){
 	loadTopbar();
 	document.getElementById("users-tab").setAttribute("aria-selected", "true");
 	document.getElementById("servers-tab").setAttribute("aria-selected", "false");
-	updateServerList(getCookie("token"));
+	updateUserList(getCookie("token"));
 }
 
 updateServerList(getCookie("token"));
