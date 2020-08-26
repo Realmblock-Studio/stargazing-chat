@@ -86,22 +86,6 @@ io.on('connection', (socket) => {
   socket.on("getUserInfo", (data) => {
     // monkey
   })
-	
-
-	// TODO: convert into api_module instead, it would be better for that
-
-	socket.on("getServers", (data)=>{
-		var token = data.token;
-		require(global.rootDir + "/modules/getUserData.js")(token, null, (userinfo)=>{
-			var id = userinfo.uId;
-			console.log(id);
-			require(global.rootDir + "/modules/getServersUser.js")(id,(servers)=>{
-				socket.emit("updateServerList", servers);
-			})
-		})
-	})
-
-
 
   socket.on("disconnectAll", (data) => {
     io.emit("disconnect")

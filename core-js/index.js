@@ -215,26 +215,34 @@ function resetSidebarList(){
 	document.getElementById("sidebar-list").innerHTML = "";
 }
 
-socket.on("updateServerList", function(data){
-	resetSidebarList();
-	data.forEach(info=>{
-		var button = createServerButton(info.serverInfo.serverName, info.serverInfo.serverIcon)
-		var serverId = info.directionId;
-		button.id = "server-" + serverId.toString();
-		console.log(info);
-		button.onclick = function(){
-			if (selectedServer == button)
-				return;
-			button.setAttribute("aria-selected", "true");
-			if (selectedServer)
-				selectedServer.setAttribute("aria-selected", "false");
-			
-			selectedServer = button;
-			loadTopbar(info);
-			// TODO: load everything when clicked lol
-		}
+
+function updateServerList(token){
+	axios.post("/getservers", {token: token})
+	.then(data=>{
+		var data = data.data
+		console.log(data);
+		resetSidebarList();
+		data.forEach(info=>{
+			var button = createServerButton(info.serverInfo.serverName, info.serverInfo.serverIcon)
+			var serverId = info.directionId;
+			button.id = "server-" + serverId.toString();
+			console.log(info);
+			button.onclick = function(){
+				if (selectedServer == button)
+					return;
+				button.setAttribute("aria-selected", "true");
+				if (selectedServer)
+					selectedServer.setAttribute("aria-selected", "false");
+				
+				selectedServer = button;
+				loadTopbar(info);
+				// TODO: load everything when clicked lol
+			}
+		})
+
 	})
-})
+}
+
 
 document.getElementById("servers-tab").onclick = function(){
 	if(document.getElementById("servers-tab").getAttribute("aria-selected") === "true")
@@ -244,7 +252,7 @@ document.getElementById("servers-tab").onclick = function(){
 	loadTopbar();
 	document.getElementById("servers-tab").setAttribute("aria-selected", "true");
 	document.getElementById("users-tab").setAttribute("aria-selected", "false");
-	socket.emit("getServers", {token: getCookie("token")})
+	updateServerList(getCookie("token"));
 }
 
 document.getElementById("users-tab").onclick = function(){
@@ -255,10 +263,10 @@ document.getElementById("users-tab").onclick = function(){
 	loadTopbar();
 	document.getElementById("users-tab").setAttribute("aria-selected", "true");
 	document.getElementById("servers-tab").setAttribute("aria-selected", "false");
-	socket.emit("getUsers", {token: getCookie("token")})
+	updateServerList(getCookie("token"));
 }
 
-socket.emit("getServers", {token: getCookie("token")})
+updateServerList(getCookie("token"));
 
 
 // 	load channel data
