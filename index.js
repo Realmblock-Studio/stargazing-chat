@@ -21,7 +21,6 @@ const request = require("request");
 const isimage = require("is-image-url");
 const MongoClient = require('mongodb').MongoClient;
 const uri = `mongodb+srv://${process.env.databaseusername}:${process.env.databasepassword}@cluster0.ezjee.mongodb.net/<dbname>?retryWrites=true&w=majority`;
-const encryptFile = require(`${__dirname}/modules/encryptJSDirectory.js`);
 
 grawlix.setDefaults({
   style: 'redacted',
@@ -47,7 +46,6 @@ global.fetchUrl = fetchUrl;
 global.rootDir = __dirname;
 global.fs = fs;
 global.jsObfuscate = jsObfuscate;
-global.encryptFile = encryptFile;
 global.path = path;
 global.client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 global.AES = AES;
@@ -59,11 +57,13 @@ global.isimage = isimage;
 
 // encrypt files
 
-encryptFile("/core-js/index.js");
+
+
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(express.json())
 
+require(`${__dirname}/modules/encryptJSDirectory.js`)();
 require(`${__dirname}/modules/startAPIservices.js`)();
 
 // error handler (prevents an error from crashing the entire-backend like it used to before (●'◡'●) )
@@ -94,6 +94,7 @@ io.on('connection', (socket) => {
 		var token = data.token;
 		require(global.rootDir + "/modules/getUserData.js")(token, null, (userinfo)=>{
 			var id = userinfo.uId;
+			console.log(id);
 			require(global.rootDir + "/modules/getServersUser.js")(id,(servers)=>{
 				socket.emit("updateServerList", servers);
 			})
@@ -107,15 +108,14 @@ io.on('connection', (socket) => {
   })
 });
 
+// entire server
 
-server.listen(port, function() {
-	console.log("\x1b[33m", 'Server listening at port', port);
-});
+server.listen(port);
 
 // mongodb
 
 global.client.connect(err => {
-	console.log("\x1b[33m", "MongoDB Connected");
+	console.log("\x1b[33m", "Mongo database connected ヾ(^▽^*)))");
   const collection = global.client.db("chat").collection("users");
 });
 

@@ -9,10 +9,18 @@ function getUser(token, uId, callback) {
   if (uId) { searchTable.uId = uId}
   if (token) { searchTable.token = token}
 
+	if (!token && !uId){
+		callback({});
+		return;
+	}
+
   global.client.db("chat").collection("users").findOne(searchTable, function(err, result) {
     if (err) throw err
- 
-    if (!result) callback(`{"error": 404}`);
+
+    if (!result){
+			callback({});
+			return;
+		}
 
     userData.username = result.username
     userData.uId = result.uId

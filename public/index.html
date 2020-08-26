@@ -15,15 +15,30 @@
   <title>Stargazers</title>
 </head>
 <body>
-	<div id="content">
-		<div class="loading" id="loading-screen">
-			<h1>Connecting...</h1>
-			<div class="spinner"></div>
-			<div class="loading-splash">
-		  	<p id="loading-splash">loading splash ༼ つ ◕_◕ ༽つ</p>
+
+	<div class="loading" id="loading-screen">
+		<h1>Connecting...</h1>
+		<div class="spinner"></div>
+		<div class="loading-splash">
+	  	<p id="loading-splash">loading splash ༼ つ ◕_◕ ༽つ</p>
+		</div>
+	</div>
+
+	<div id="signup-content">
+		<div id="sign-menu" class="sign-menu">
+			<div class="sign-header">
+				<div class="sign-title">Welcome</div>
+			</div>
+			<div class="sign-fields">
+			<input placeholder="Username" id="sign-username">
+			<input placeholder="Tag" id="sign-tag" maxlength="4">
+			<input placeholder="Password" id="sign-password" type="password">
+			<button id="sign-up">Sign-Up</button>
+			<button id="log-in">Log-In</button>
 			</div>
 		</div>
-		
+	</div>
+	<div id="content">
 		<div class="sidebar">
 		  <div class="sidebar-top">
 		    <div id="servers-tab" class="sidebar-top-button" role="tab", aria-selected="true">Servers</div>
@@ -57,10 +72,10 @@
 					<i class="fas fa-bars"></i>
 				</div>
 		  	<div class="topbar-title">
-		      <img class="object-avatar"src="https://cdn.discordapp.com/avatars/547951620235984906/60ca51ff2d3e37e07f09f51ff090ba40.webp?size=128">
+		      <img class="object-avatar" id="object-avatar" src="https://cdn.discordapp.com/avatars/547951620235984906/60ca51ff2d3e37e07f09f51ff090ba40.webp?size=128">
 					<div class="topbar-information">
-						<div class="title-name">Hoofer's Server</div>
-						<div class="title-members">0 Members</div>
+						<div class="title-name" id="title-name">Hoofer's Server</div>
+						<div class="title-members" id="title-members">0 Members</div>
 					</div>
 				</div>
 				<div class="topbar-buttons">
@@ -73,27 +88,7 @@
 				</div>
 		  </div>
 		  <div class="main-chat">
-				<h3>10/10 sign-up frame, would sign up again</h4>
-				<div id="username">temp-username-details</div>
-				<div id="tag">temp-tag-details</div>
-				<div id="password">temp-password-details</div>
-				<div id="token">temp-token-details</div>
-				<div id="res-id">res-id</div>
-				<div id="res-data">res-details</div>
-				<br>
-				<br>
-				<input placeholder="username" id="signup-username">
-				<input placeholder="tag" id="signup-tag" style="width: 75px;">
-				<br>
-				<input placeholder="password" id="signup-password">
-				<button id="signup-confirm" style="width: 80px;">signup</button>
-				<br>
-				<br>
-				<input placeholder="username" id="login-username">
-				<input placeholder="tag" id="login-tag" style="width: 75px;">
-				<br>
-				<input placeholder="password" id="login-password">
-				<button id="login-confirm" style="width: 80px;">login</button>
+
 
 		  </div>
 		  <div class="main-chatbar">
@@ -101,21 +96,20 @@
 				<div>
 		  </div>
 		</div>
-		
-		
-		<script> 
-		  var loadingSplashes = [
-		    "Did you know that the Universe is 13.7 billion years old?",
-		    "Did you know the Universe is actually flat?",
-		    "Did you know there is a giant cloud of alcohol in Sagittarius B?",
-		    "Did you know there is a giant planet-sized diamond in Centaurus named after a Beatles song?",
-		    "It takes 225 <strong>MILLION</strong> years for our Sun to travel around the galaxy",
-				"We are all bound to die one day. (⊙_⊙;)",
-		    ]
-		
-		  document.getElementById("loading-splash").innerHTML = loadingSplashes[Math.floor(Math.random() * loadingSplashes.length)]
-		</script>
-		<script src="/core-js/index.js"></script>
 	</div>
+	
+	<script> 
+	  var loadingSplashes = [
+	    "Did you know that the Universe is 13.7 billion years old?",
+	    "Did you know the Universe is actually flat?",
+	    "Did you know there is a giant cloud of alcohol in Sagittarius B?",
+	    "Did you know there is a giant planet-sized diamond in Centaurus named after a Beatles song?",
+	    "It takes 225 <strong>MILLION</strong> years for our Sun to travel around the galaxy",
+			"We are all bound to die one day. (⊙_⊙;)",
+	    ]
+	
+	  document.getElementById("loading-splash").innerHTML = loadingSplashes[Math.floor(Math.random() * loadingSplashes.length)]
+	</script>
+	<script src="/core-js/index.js"></script>
 </body>
 </html>

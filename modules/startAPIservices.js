@@ -7,7 +7,7 @@ function start() {
 				console.log("\x1b[32m", `${file} is now enabled ♪(´▽｀)`);
 				f.f();
 			} else {
-				console.log("\x1b[31m", `${file} is now disabled ≧ ﹏ ≦`);
+				console.log("\x1b[31m", `${file} is now disabled (￣o￣) . z Z`);
 			}
 		});
 	});

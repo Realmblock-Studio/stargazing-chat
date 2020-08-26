@@ -38,4 +38,16 @@ function encrypt(directory){
   });
 }
 
-module.exports = encrypt;
+//encryptFile("/core-js/index.js");
+
+function encryptAll(){
+	global.fs.readdir(global.path.join(global.rootDir, 'core-js'), (err, files) => {
+		files.forEach(file => {
+			console.log("\x1b[35m", file + " is now encrypted (づ￣ 3￣)づ")
+			var path = '/' + global.path.join('core-js', file);
+			encrypt(path);
+		});
+	});
+}
+
+module.exports = encryptAll;

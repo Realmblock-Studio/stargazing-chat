@@ -4,7 +4,7 @@
 
 var socket = io()
 
-function hideLoading() {
+function hideLoading() { //"signup-content"
   document.getElementById("loading-screen").style.opacity = 0;
 	
   setTimeout(function(){
@@ -61,6 +61,19 @@ function getCookie(name) {
     return null;
 }
 // yoinked off quirksmode.org/js/cookies.html
+
+// detect if user has a token or not
+
+function tokenCheck() {
+  if (!getCookie("token")) {
+    document.getElementById("signup-content").style.opacity = 1;
+    document.getElementById("signup-content").style.display = "";
+  } else {
+    document.getElementById("signup-content").style.opacity = 0;
+    document.getElementById("signup-content").style.display = "none";
+  }
+}
+tokenCheck()
 
 // message reciever
 
@@ -131,50 +144,48 @@ function sendMessage(directionId, message) { // directionId is either a userid o
     }
   }
 
-  console.log("a")
-
   socket.emit("messageRequest",JSON.stringify(messagePacket))
-
-  console.log("b")
-
-  return "pog it'll work"
-
 }
 
 // sign-up test v1
 
-document.getElementById("signup-confirm").onclick = function(){
-	var username = document.getElementById("signup-username").value;
-	var tag = document.getElementById("signup-tag").value;
-	var password = document.getElementById("signup-password").value;
+document.getElementById("sign-up").onclick = function(){
+	var username = document.getElementById("sign-username").value;
+	var tag = document.getElementById("sign-tag").value;
+	var password = document.getElementById("sign-password").value;
 	password = CryptoJS.AES.encrypt(password, tag+username).toString();
 	axios.post("/signup", {username: username, tag: tag, password: password})
 	.then(data=>{
 		var data = data.data
-		document.getElementById("res-id").innerText = data.result;
-		document.getElementById("res-data").innerText = data.message;
+
+		// prompt
+    if (data.token) {
+      document.cookie = `token=${data.token}; Path=/`
+    }
+		if (data.result == 1){
+			location.reload();
+		}
 	})
 	.catch(err=>{
 		console.log(err);
 	})
 }
-
-// log-in test v1
-
-document.getElementById("login-confirm").onclick = function(){
-	var username = document.getElementById("login-username").value;
-	var tag = document.getElementById("login-tag").value;
-	var password = document.getElementById("login-password").value;
+document.getElementById("log-in").onclick = function(){
+	var username = document.getElementById("sign-username").value;
+	var tag = document.getElementById("sign-tag").value;
+	var password = document.getElementById("sign-password").value;
 	password = CryptoJS.AES.encrypt(password, tag+username).toString();
 	axios.post("/login", {username: username, tag: tag, password: password})
 	.then(data=>{
 		var data = data.data
-		document.getElementById("res-id").innerText = data.result;
-		document.getElementById("res-data").innerText = data.message;
-    
+
+		// prompt
     if (data.token) {
       document.cookie = `token=${data.token}; Path=/`
     }
+		if (data.result == 1){
+			location.reload();
+		}
 	})
 	.catch(err=>{
 		console.log(err);
@@ -205,6 +216,7 @@ function resetSidebarList(){
 }
 
 socket.on("updateServerList", function(data){
+	resetSidebarList();
 	data.forEach(info=>{
 		var button = createServerButton(info.serverInfo.serverName, info.serverInfo.serverIcon)
 		var serverId = info.directionId;
@@ -218,27 +230,55 @@ socket.on("updateServerList", function(data){
 				selectedServer.setAttribute("aria-selected", "false");
 			
 			selectedServer = button;
+			loadTopbar(info);
 			// TODO: load everything when clicked lol
 		}
 	})
 })
 
 document.getElementById("servers-tab").onclick = function(){
-	if(document.getElementById("servers-tab").getAttribute("aria-selected") === "false"){
-		resetSidebarList();
-	}
+	if(document.getElementById("servers-tab").getAttribute("aria-selected") === "true")
+		return;
+
+	resetSidebarList();
+	loadTopbar();
 	document.getElementById("servers-tab").setAttribute("aria-selected", "true");
 	document.getElementById("users-tab").setAttribute("aria-selected", "false");
 	socket.emit("getServers", {token: getCookie("token")})
 }
 
 document.getElementById("users-tab").onclick = function(){
-	if(document.getElementById("users-tab").getAttribute("aria-selected") === "false"){
-		resetSidebarList();
-	}
+	if(document.getElementById("users-tab").getAttribute("aria-selected") === "true")
+		return;
+
+	resetSidebarList();
+	loadTopbar();
 	document.getElementById("users-tab").setAttribute("aria-selected", "true");
 	document.getElementById("servers-tab").setAttribute("aria-selected", "false");
 	socket.emit("getUsers", {token: getCookie("token")})
 }
 
 socket.emit("getServers", {token: getCookie("token")})
+
+
+// 	load channel data
+// object-avatar title-members title-name
+
+function loadTopbar(info){
+	var avatar = document.getElementById("object-avatar")
+	var members = document.getElementById("title-members")
+	var name = document.getElementById("title-name")
+	if (!info)
+		info = {serverInfo: {serverName: "", serverIcon:""}, members:""};
+
+	name.innerText = info.serverInfo.serverName
+	avatar.src = info.serverInfo.serverIcon
+	if (info.members === 1)
+		members.innerText = info.members + " Member";
+	else if (info.members === "")
+		members.innerText = info.members + "";
+	else
+		members.innerText = info.members + " Members";
+
+}
+loadTopbar();
