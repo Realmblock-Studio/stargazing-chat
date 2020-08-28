@@ -11,7 +11,7 @@ function login() {
     }
 
 		var username = req.body.username
-		var tag = req.body.tag
+		var tag = req.body.tag.toUpperCase()
 		var password = req.body.password
 		
 		if (!username || !tag || !password){

@@ -123,6 +123,10 @@ toggleButton.onclick = function(){
 	dark = !dark;
 }
 
+function clearToken() {
+  document.cookie = "token=null; Path=/; Expires=0;"
+}
+
 // send message test v1
 
 function sendMessage(directionId, message) { // directionId is either a userid or server id.

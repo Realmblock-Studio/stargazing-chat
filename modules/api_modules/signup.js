@@ -70,7 +70,7 @@ function createAccount() {
           global.client.db("chat").collection("users").insertOne({
             uId: uId,
             username: username,
-            tag: tag,
+            tag: tag.toUpperCase(),
             password: global.CryptoJS.HmacSHA256(password, process.env.hashCode).toString(),
             creationTime: Date.now(),
             creationIp: global.requestIp.getClientIp(req),

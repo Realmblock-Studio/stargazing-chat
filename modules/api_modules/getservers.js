@@ -1,6 +1,6 @@
 // DOES NOT SHOW SERVERS THAT USER IS NOT IN
 function getServers() {
-  global.app.post('/getservers', function(req, res) {
+	global.app.post('/getservers', function(req, res) {
 		var token = req.body.token;
 		if (!token){
 			res.send("[]");

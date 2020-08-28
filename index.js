@@ -23,7 +23,6 @@ const MongoClient = require('mongodb').MongoClient;
 const uri = `mongodb+srv://${process.env.databaseusername}:${process.env.databasepassword}@cluster0.ezjee.mongodb.net/<dbname>?retryWrites=true&w=majority`;
 
 grawlix.setDefaults({
-  style: 'redacted',
   plugins: [
     {
       plugin: require('grawlix-racism'),
